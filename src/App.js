@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import cad from './cad.json';
 
@@ -19,6 +19,12 @@ function App() {
   const [description, setDescription] = useState(null);
   const [result, setResult] = useState(null);
 
+  const amountInputEleRef = useRef(null);
+
+  useEffect(() => {
+    amountInputEleRef.current.focus();
+  }, []);
+
   function handleSumbit(event) {
     event.preventDefault();
     let { amount, from, to } = event.target;
@@ -28,6 +34,7 @@ function App() {
     const result = to.rate / from.rate * amount;
     setDescription(`${amount} ${from.code} = `);
     setResult(`${result} ${to.code}`);
+    amountInputEleRef.current.focus();
   }
 
   return (
@@ -35,7 +42,7 @@ function App() {
       <form onSubmit={handleSumbit}>
         <label>
           Amount:
-          <input type="number" name="amount" />
+          <input type="number" name="amount" ref={amountInputEleRef} />
         </label>
         <label>
           From:
