@@ -3,6 +3,7 @@ import './App.css';
 import cad from './cad.json';
 
 const allCurrencies = Object.values(cad);
+allCurrencies.push({ code: 'CAD', name: 'Canadian Dollar', rate: 1 });
 allCurrencies.sort((a, b) => {
   if (a.code < b.code) {
     return -1;
@@ -16,7 +17,6 @@ const options = allCurrencies.map(m => <option key={m.code} value={`${JSON.strin
 
 function App() {
 
-  const [description, setDescription] = useState(null);
   const [result, setResult] = useState(null);
 
   const amountInputEleRef = useRef(null);
@@ -32,8 +32,7 @@ function App() {
     from = JSON.parse(from.value);
     to = JSON.parse(to.value);
     const result = to.rate / from.rate * amount;
-    setDescription(`${amount} ${from.code} = `);
-    setResult(`${result} ${to.code}`);
+    setResult(`${amount} ${from.code} = ${result} ${to.code}`);
     amountInputEleRef.current.focus();
   }
 
@@ -58,8 +57,7 @@ function App() {
         </label>
         <input type="submit" value="Submit" />
       </form>
-      <div>{description}</div>
-      <div>{result}</div>
+      <div role="alert">{result}</div>
     </>
   );
 }
